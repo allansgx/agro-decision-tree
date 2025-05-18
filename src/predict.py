@@ -9,9 +9,9 @@ else:
 
 
 model_bundle = joblib.load("models/tree.pkl")
-clf = model_bundle["model"]
-encoders = model_bundle["encoders"]
-le_y = model_bundle["target_le"]
+clf = model_bundle["model"] # a árvore
+encoders = model_bundle["encoders"] # dict col→LabelEncoder
+target = model_bundle["target_le"] # encoder do alvo
 
 # dados via JSON na linha de comando
 df = pd.DataFrame([sample])
@@ -19,5 +19,5 @@ df = pd.DataFrame([sample])
 for col in df.columns:
     df[col] = encoders[col].transform(df[col])
 
-pred = le_y.inverse_transform(clf.predict(df))[0]
+pred = target.inverse_transform(clf.predict(df))[0]
 print("Recomendação:", pred)
