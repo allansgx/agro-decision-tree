@@ -8,10 +8,10 @@ else:
     sample = json.loads(arg)
 
 
-model_bundle = joblib.load("models/tree.pkl")
-clf = model_bundle["model"] # a árvore
-encoders = model_bundle["encoders"] # dict col→LabelEncoder
-target = model_bundle["target_le"] # encoder do alvo
+bundle = joblib.load("models/tree.pkl")
+clf = bundle["model"] # a árvore
+encoders = bundle["encoders"] # dict col→LabelEncoder
+target = bundle["target_le"] # encoder do alvo
 
 # dados via JSON na linha de comando
 df = pd.DataFrame([sample])

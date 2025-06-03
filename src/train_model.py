@@ -4,28 +4,41 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 
 def main():
-    df = pd.read_csv("data/raw/dataset.csv")
-    X = df.drop("cultura_recomendada", axis=1)
-    y = df["cultura_recomendada"]
+    dataset = pd.read_csv("data/raw/dataset.csv")
 
-    encoders = {}
-    for col in X.columns:
-        le = LabelEncoder()
-        X[col] = le.fit_transform(X[col])
-        encoders[col] = le
+    features = dataset.drop("cultivo_recomendado", axis=1)
+    target = dataset["cultivo_recomendado"]
 
-    le_y = LabelEncoder()
-    y = le_y.fit_transform(y)
+    # Codificar variáveis categóricas das features
+    feature_encoders = {}
+    for column in features.columns:
+        encoder = LabelEncoder()
+        features[column] = encoder.fit_transform(features[column])
+        feature_encoders[column] = encoder
 
-    Xtr,Xte,Ytr,Yte = train_test_split(X,y, test_size=0.2, random_state=42)
-    clf = DecisionTreeClassifier(random_state=42)
-    clf.fit(Xtr,Ytr)
-    acc = clf.score(Xte,Yte)
-    print(f"Accuracy: {acc:.2f}")
+    # Codificar variável alvo (target)
+    target_encoder = LabelEncoder()
+    target = target_encoder.fit_transform(target)
+
+    # Separar dados de treino e teste
+    X_train, X_test, y_train, y_test = train_test_split(
+        features, target, test_size=0.2, random_state=42
+    )
+
+    # Criar e treinar o modelo de árvore de decisão
+    decision_tree = DecisionTreeClassifier(random_state=42)
+    decision_tree.fit(X_train,y_train)
+
+    accuracy = decision_tree.score(X_test, y_test)
+    print(f"Accuracy: {accuracy:.2f}")
 
     pathlib.Path("models").mkdir(exist_ok=True)
-    joblib.dump({"model":clf,"encoders":encoders,"target_le":le_y},
-                "models/tree.pkl")
+    joblib.dump({
+        "model": decision_tree,
+        "encoders": feature_encoders,
+        "target_le": target_encoder
+    }, "models/tree.pkl")
+
     print("✔ Modelo salvo em models/tree.pkl")
 
 if __name__ == "__main__":
