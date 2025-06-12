@@ -1,4 +1,4 @@
-import pandas as pd, random, pathlib, argparse
+import pandas, random, pathlib, argparse
 
 def generate(n=100, path="data/raw/dataset.csv"):
     # Opções disponíveis para gerar conjuntos
@@ -37,7 +37,7 @@ def generate(n=100, path="data/raw/dataset.csv"):
         rows.append([solo,temp,chuva,estacao,regiao,demanda,experiencia,cultivo])
 
     # Criar o dataset em csv
-    df = pd.DataFrame(rows, columns=[
+    df = pandas.DataFrame(rows, columns=[
         'tipo_solo','temperatura','chuva','estacao','regiao',
         'demanda_mercado','experiencia_agricultor','cultivo_recomendado'])
     pathlib.Path(path).parent.mkdir(parents=True, exist_ok=True)

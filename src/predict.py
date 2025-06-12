@@ -9,11 +9,10 @@ else:
 
 
 bundle = joblib.load("models/tree.pkl")
-clf = bundle["model"] # a árvore
-encoders = bundle["encoders"] # dict col→LabelEncoder
-target = bundle["target_le"] # encoder do alvo
+clf = bundle["model"]
+encoders = bundle["encoders"]
+target = bundle["target_le"]
 
-# dados via JSON na linha de comando
 df = pd.DataFrame([sample])
 
 for col in df.columns:

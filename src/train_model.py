@@ -21,6 +21,8 @@ def main():
     target = target_encoder.fit_transform(target)
 
     # Separar dados de treino e teste
+    # test_size -> 0.2 significa 20% dos dados vão para o teste, e 80% vão para o treinamento.
+    # random_state=42 → a escolha das amostras será aleatória, mas reprodutível (sempre as mesmas ao rodar o código com esse seed)
     X_train, X_test, y_train, y_test = train_test_split(
         features, target, test_size=0.2, random_state=42
     )
